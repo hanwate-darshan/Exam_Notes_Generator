@@ -119,7 +119,7 @@ function FinalResult({ result }) {
             </p>
           </div>
 
-          <!-- ACTIONS -->
+          {/* ACTIONS */}
           <div className="flex items-center gap-2.5">
             <button
               onClick={handleCopy}
@@ -225,7 +225,7 @@ function FinalResult({ result }) {
       </div>
 
       {/* ============================================================ */}
-      <!-- TAB 1: STRUCTURED NOTES CONTENT                              -->
+      {/* TAB 1: STRUCTURED NOTES CONTENT */}
       {/* ============================================================ */}
       {activeTab === "notes" && (
         <div className="space-y-6">
@@ -251,7 +251,7 @@ function FinalResult({ result }) {
       )}
 
       {/* ============================================================ */}
-      <!-- TAB 2: YOUTUBE VIDEO LECTURES SHELF                          -->
+      {/* TAB 2: YOUTUBE VIDEO LECTURES SHELF */}
       {/* ============================================================ */}
       {activeTab === "videos" && youtubeVideos.length > 0 && (
         <div className="space-y-6">
@@ -314,7 +314,7 @@ function FinalResult({ result }) {
       )}
 
       {/* ============================================================ */}
-      <!-- TAB 3: 5-MIN CHEAT SHEET                                     -->
+      {/* TAB 3: 5-MIN CHEAT SHEET */}
       {/* ============================================================ */}
       {activeTab === "recall" && (
         <div className="bg-white dark:bg-[#131926] rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200/80 dark:border-white/10 space-y-4 transition-colors">
@@ -348,7 +348,7 @@ function FinalResult({ result }) {
       )}
 
       {/* ============================================================ */}
-      <!-- TAB 4: VISUAL CONCEPT MAP (MERMAID)                          -->
+      {/* TAB 4: VISUAL CONCEPT MAP (MERMAID) */}
       {/* ============================================================ */}
       {activeTab === "flowchart" && result.diagram && (
         <div className="bg-white dark:bg-[#131926] rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200/80 dark:border-white/10 space-y-4 transition-colors">
@@ -367,7 +367,7 @@ function FinalResult({ result }) {
       )}
 
       {/* ============================================================ */}
-      <!-- TAB 5: SOLVED EXAM BANK WITH INTERACTIVE REVEAL              -->
+      {/* TAB 5: SOLVED EXAM BANK WITH INTERACTIVE REVEAL */}
       {/* ============================================================ */}
       {activeTab === "questions" && (
         <div className="space-y-4">
@@ -464,7 +464,7 @@ function FinalResult({ result }) {
       )}
 
       {/* ============================================================ */}
-      <!-- TAB 6: WEIGHTAGE CHARTS                                       -->
+      {/* TAB 6: WEIGHTAGE CHARTS */}
       {/* ============================================================ */}
       {activeTab === "charts" && result.charts && result.charts.length > 0 && (
         <div className="bg-white dark:bg-[#131926] rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200/80 dark:border-white/10 space-y-4 transition-colors">
