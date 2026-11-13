@@ -47,50 +47,56 @@ function History() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC] text-slate-900 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
+    <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-[#09090B] dark:text-zinc-100 transition-colors duration-200">
       
-      {/* GLOBAL NAVBAR */}
+      {/* GLOBAL BOLD NAVBAR */}
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 pb-24">
+      <main className="max-w-6xl mx-auto px-4 md:px-8 pt-2 pb-20 space-y-6">
 
-        {/* HEADER */}
-        <div className="flex flex-wrap items-center justify-between border-b border-slate-200 dark:border-white/10 pb-4 gap-4">
-          <div>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Past Examination Archives
-            </h1>
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">
-              Review your previously synthesized study desks, lecture shelves, and question banks.
-            </p>
+        {/* PAGE HEADER */}
+        <div className="flex flex-wrap items-center justify-between border-b-2 border-gray-200 dark:border-zinc-800 pb-4 gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-xl bg-indigo-600 border-2 border-gray-900 flex items-center justify-center text-white text-xl font-black shadow-[2px_2px_0px_#000] dark:border-zinc-600 dark:shadow-none">
+              📂
+            </div>
+            <div>
+              <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">
+                Saved Examination Notes
+              </h2>
+              <p className="text-xs font-semibold text-gray-500 dark:text-zinc-400">
+                Your past generated study material, flowcharts, questions & lectures
+              </p>
+            </div>
           </div>
 
           <button
             onClick={() => navigate("/notes")}
-            className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 active:scale-95 transition flex items-center gap-2 cursor-pointer"
+            className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs md:text-sm border-2 border-gray-900 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 transition flex items-center gap-2 cursor-pointer"
           >
-            <span>⚡ Generate New Module</span>
+            <span>➕</span> Generate New Notes
           </button>
         </div>
 
-        {/* 2-PANE ARCHIVES WORKSPACE */}
+        {/* MAIN HISTORY GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
           
-          {/* LEFT ARCHIVE LIST */}
-          <div className="lg:col-span-1 bg-white dark:bg-[#131926] rounded-2xl p-4 border border-slate-200/80 dark:border-white/10 shadow-sm space-y-3 transition-colors max-h-[80vh] overflow-y-auto">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-1 pt-1">
+          {/* LEFT COLUMN: LIST OF PAST NOTES */}
+          <div className="lg:col-span-1 bg-white border-2 border-gray-900 rounded-3xl p-4 shadow-[5px_5px_0px_#000] space-y-3 dark:bg-[#141416] dark:border-zinc-600 dark:shadow-[5px_5px_0px_rgba(255,255,255,0.1)] transition-colors max-h-[80vh] overflow-y-auto">
+            
+            <h3 className="text-xs font-black uppercase tracking-wider text-gray-400 dark:text-zinc-500 px-2 pt-1">
               Your Archives ({topics.length})
             </h3>
 
             {topics.length === 0 ? (
-              <div className="p-6 text-center text-slate-400 space-y-2">
+              <div className="p-6 text-center text-gray-500 dark:text-zinc-400 space-y-2">
                 <p className="text-2xl">📭</p>
-                <p className="text-xs font-semibold">No saved notes yet</p>
+                <p className="text-xs font-bold">No saved notes yet</p>
                 <button
                   onClick={() => navigate("/notes")}
-                  className="text-xs font-bold text-indigo-600 dark:text-indigo-400 underline cursor-pointer"
+                  className="text-xs font-black text-indigo-600 underline"
                 >
-                  Create your first module
+                  Create your first notes
                 </button>
               </div>
             ) : (
@@ -103,16 +109,16 @@ function History() {
                     <button
                       key={t._id}
                       onClick={() => openNotes(t._id)}
-                      className={`w-full text-left p-3.5 rounded-xl border transition cursor-pointer space-y-1 ${
+                      className={`w-full text-left p-3.5 rounded-2xl border-2 transition active:translate-x-0.5 active:translate-y-0.5 cursor-pointer space-y-1 ${
                         isActive
-                          ? "bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-600/20"
-                          : "bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/60 dark:hover:bg-slate-800/80 border-slate-200 dark:border-white/5 text-slate-800 dark:text-slate-200"
+                          ? "bg-indigo-600 text-white border-gray-900 shadow-[3px_3px_0px_#000] dark:bg-indigo-600 dark:border-white"
+                          : "bg-gray-50 hover:bg-gray-100 border-gray-900 text-gray-900 dark:bg-zinc-800/80 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800"
                       }`}
                     >
-                      <p className={`font-bold text-xs line-clamp-2 leading-snug ${isActive ? "text-white" : "text-slate-900 dark:text-white"}`}>
+                      <p className={`font-black text-xs md:text-sm line-clamp-2 leading-tight ${isActive ? "text-white" : "text-gray-900 dark:text-white"}`}>
                         {t.topic}
                       </p>
-                      <div className={`flex items-center justify-between text-[10px] font-semibold ${isActive ? "text-indigo-200" : "text-slate-400"}`}>
+                      <div className={`flex items-center justify-between text-[10px] font-bold ${isActive ? "text-indigo-200" : "text-gray-500 dark:text-zinc-400"}`}>
                         <span>{t.classLevel || t.examType || "General"}</span>
                         <span>{dateStr}</span>
                       </div>
@@ -121,23 +127,26 @@ function History() {
                 })}
               </div>
             )}
+
           </div>
 
-          {/* RIGHT VIEWER */}
+          {/* RIGHT COLUMN: NOTE CONTENT VIEWER */}
           <div className="lg:col-span-3">
             {loading ? (
-              <div className="bg-white dark:bg-[#131926] rounded-2xl p-16 text-center border border-slate-200/80 dark:border-white/10 shadow-sm">
-                <span className="text-2xl animate-spin inline-block">⏳</span>
-                <p className="font-bold text-xs uppercase text-slate-600 dark:text-slate-400 mt-2">
-                  Loading archive module...
+              <div className="bg-white border-2 border-gray-900 rounded-3xl p-16 text-center shadow-[5px_5px_0px_#000] dark:bg-[#141416] dark:border-zinc-600">
+                <span className="text-3xl animate-spin inline-block">⏳</span>
+                <p className="font-black text-sm uppercase text-gray-700 dark:text-zinc-300 mt-3">
+                  Loading saved notes...
                 </p>
               </div>
             ) : selectedNote ? (
               <FinalResult result={selectedNote} />
             ) : (
-              <div className="bg-white dark:bg-[#131926] rounded-2xl p-16 text-center border border-dashed border-slate-300 dark:border-white/10 text-slate-400 space-y-2">
-                <span className="text-3xl">📂</span>
-                <p className="font-bold text-xs">Select a note from the left archive to view the full study desk</p>
+              <div className="bg-white border-2 border-dashed border-gray-400 rounded-3xl p-16 text-center space-y-3 dark:bg-[#141416] dark:border-zinc-700">
+                <span className="text-4xl">📂</span>
+                <p className="font-black text-sm text-gray-500 dark:text-zinc-400">
+                  Select a note from the left to view the complete revision material
+                </p>
               </div>
             )}
           </div>
@@ -146,7 +155,6 @@ function History() {
 
       </main>
 
-      {/* FOOTER */}
       <Footer />
     </div>
   )

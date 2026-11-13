@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { motion } from "motion/react"
 import { generateNotes } from '../services/api'
 import { useDispatch } from 'react-redux'
 import { updateCredits } from '../redux/userSlice'
 
 function TopicForm({ setResult, setLoading, loading, setError }) {
   const [topic, setTopic] = useState("")
-  const [classLevel, setClassLevel] = useState("Class 11 Science")
-  const [examType, setExamType] = useState("CBSE Board")
+  const [classLevel, setClassLevel] = useState("")
+  const [examType, setExamType] = useState("")
   const [revisionMode, setRevisionMode] = useState(false)
   const [includeDiagram, setIncludeDiagram] = useState(true)
   const [includeChart, setIncludeChart] = useState(true)
@@ -14,18 +15,12 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
   const [progressText, setProgressText] = useState("")
   const dispatch = useDispatch()
 
-  const quickTopics = [
-    "Newton's Laws of Motion & Friction",
-    "Photosynthesis Light Reactions",
-    "Thermodynamics & Heat Engines",
-    "Aldehydes, Ketones & Carboxylic Acids",
-    "Calculus Definite Integration",
-    "B.Tech Data Structures & Trees"
-  ]
+  const quickClasses = ["Class 10", "Class 11", "Class 12", "B.Tech/Engg", "NEET/JEE"]
+  const quickExams = ["CBSE", "State Board", "ICSE", "JEE Main", "NEET"]
 
   const handleSubmit = async () => {
     if (!topic.trim()) {
-      setError("Please enter a topic or chapter name to begin.")
+      setError("Please enter the topic or chapter name")
       return
     }
     setError("")
@@ -66,14 +61,14 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
 
       if (value >= 95) {
         value = 95
-        setProgressText("Finalizing high-yield study material…")
+        setProgressText("Finalizing high-yield exam material…")
         clearInterval(interval)
       } else if (value > 70) {
-        setProgressText("Curating YouTube video lectures & diagrams…")
+        setProgressText("Formatting diagrams, formulas & YouTube lectures…")
       } else if (value > 40) {
-        setProgressText("Calibrating question bank for target board…")
+        setProgressText("Calibrating questions for target board…")
       } else {
-        setProgressText("Synthesizing syllabus with Gemini AI…")
+        setProgressText("Analyzing syllabus with Gemini AI…")
       }
 
       setProgress(Math.floor(value))
@@ -83,159 +78,192 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
   }, [loading])
 
   return (
-    <div className="bg-white dark:bg-[#131926] rounded-2xl p-6 shadow-[0_4px_25px_-5px_rgba(0,0,0,0.05)] border border-slate-200/80 dark:border-white/10 space-y-4 transition-colors">
+    <div className="bg-white border-2 border-gray-900 rounded-3xl p-6 md:p-8 shadow-[6px_6px_0px_#000] space-y-6
+      dark:bg-[#141416] dark:border-zinc-600 dark:shadow-[6px_6px_0px_rgba(255,255,255,0.12)] transition-colors">
       
-      {/* HEADER */}
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-indigo-600 dark:bg-indigo-400"></span>
-          <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-            Generate New Exam Revision Module
+      {/* HEADER ROW */}
+      <div className="flex flex-wrap items-center justify-between border-b-2 border-gray-100 dark:border-zinc-800 pb-4 gap-2">
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-black uppercase tracking-wider text-indigo-700 bg-indigo-50 border-2 border-indigo-200 px-3 py-1 rounded-full dark:bg-indigo-950/70 dark:border-indigo-600 dark:text-indigo-300">
+            Step 1: Input Details
+          </span>
+          <h2 className="text-xl md:text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight">
+            Generate New Exam Notes
           </h2>
         </div>
-        <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
-          <span>Cost: <strong className="text-indigo-600 dark:text-indigo-400 font-bold">10 Credits</strong></span>
-          <span>•</span>
-          <span>Notes + Video Lectures + Flowcharts</span>
-        </div>
+        <span className="text-xs font-extrabold text-gray-500 dark:text-zinc-400 bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 px-3 py-1 rounded-lg">
+          ⚡ 10 Credits / generation
+        </span>
       </div>
 
-      {/* COMMAND SEARCH BAR + SELECTORS */}
-      <div className="flex flex-col md:flex-row gap-3">
+      {/* INPUTS GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         
-        {/* INPUT */}
-        <div className="relative flex-1">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 text-base">
-            🔍
+        {/* TOPIC INPUT (FULL WIDTH) */}
+        <div className="md:col-span-3 space-y-2">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-black uppercase tracking-wider text-gray-700 dark:text-zinc-300">
+              Enter Topic or Chapter Name <span className="text-red-500">*</span>
+            </label>
+            <span className="text-[11px] font-bold text-gray-400">e.g. Newton Laws, Photosynthesis, Thermodynamics</span>
           </div>
           <input 
             type="text" 
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             onKeyDown={(e) => { if (e.key === 'Enter' && !loading) handleSubmit() }}
-            placeholder="Type any topic, chapter, or syllabus question (e.g. Newton Laws, Photosynthesis)..."
+            placeholder="e.g. Newton's Laws of Motion & Friction"
             disabled={loading}
-            className="w-full pl-11 pr-4 py-3.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-semibold text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-[#111622] transition placeholder-slate-400"
+            className="w-full text-base md:text-lg font-bold p-4 bg-gray-50 border-2 border-gray-900 rounded-xl focus:outline-none focus:bg-white focus:ring-4 focus:ring-indigo-100 text-gray-900 placeholder-gray-400 dark:bg-zinc-800/80 dark:border-zinc-600 dark:text-white dark:placeholder-zinc-500 dark:focus:ring-indigo-900 transition"
           />
         </div>
 
-        {/* SELECTORS & CTA */}
-        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
-          
-          <select 
+        {/* CLASS LEVEL */}
+        <div className="space-y-2">
+          <label className="text-xs font-black uppercase tracking-wider text-gray-700 dark:text-zinc-300">
+            Class / Education Level
+          </label>
+          <input 
+            type="text" 
             value={classLevel}
             onChange={(e) => setClassLevel(e.target.value)}
+            placeholder="e.g. Class 11 Science"
             disabled={loading}
-            className="px-3.5 py-3.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer"
-          >
-            <option value="Class 10">Class 10</option>
-            <option value="Class 11 Science">Class 11 Science</option>
-            <option value="Class 12 Science">Class 12 Science</option>
-            <option value="B.Tech Engineering">B.Tech Engineering</option>
-            <option value="NEET Medical">NEET Medical</option>
-            <option value="JEE Main & Adv">JEE Main & Adv</option>
-          </select>
+            className="w-full font-bold p-3.5 bg-gray-50 border-2 border-gray-900 rounded-xl focus:outline-none focus:bg-white focus:ring-4 focus:ring-indigo-100 text-gray-900 placeholder-gray-400 dark:bg-zinc-800/80 dark:border-zinc-600 dark:text-white dark:placeholder-zinc-500 transition"
+          />
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {quickClasses.map((cls) => (
+              <button
+                key={cls}
+                type="button"
+                onClick={() => setClassLevel(cls)}
+                className="px-2 py-0.5 text-[10px] font-black uppercase rounded-md bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-700 transition"
+              >
+                {cls}
+              </button>
+            ))}
+          </div>
+        </div>
 
-          <select 
+        {/* TARGET EXAM / BOARD */}
+        <div className="space-y-2">
+          <label className="text-xs font-black uppercase tracking-wider text-gray-700 dark:text-zinc-300">
+            Target Exam / Board
+          </label>
+          <input 
+            type="text" 
             value={examType}
             onChange={(e) => setExamType(e.target.value)}
+            placeholder="e.g. CBSE & JEE Main"
             disabled={loading}
-            className="px-3.5 py-3.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer"
-          >
-            <option value="CBSE Board">CBSE Board</option>
-            <option value="Maharashtra State Board">State Board</option>
-            <option value="ICSE / ISC">ICSE / ISC</option>
-            <option value="Competitive Exam">Competitive Exam</option>
-            <option value="University Semester">University Semester</option>
-          </select>
+            className="w-full font-bold p-3.5 bg-gray-50 border-2 border-gray-900 rounded-xl focus:outline-none focus:bg-white focus:ring-4 focus:ring-indigo-100 text-gray-900 placeholder-gray-400 dark:bg-zinc-800/80 dark:border-zinc-600 dark:text-white dark:placeholder-zinc-500 transition"
+          />
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {quickExams.map((ex) => (
+              <button
+                key={ex}
+                type="button"
+                onClick={() => setExamType(ex)}
+                className="px-2 py-0.5 text-[10px] font-black uppercase rounded-md bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-700 transition"
+              >
+                {ex}
+              </button>
+            ))}
+          </div>
+        </div>
 
+        {/* SUBMIT BUTTON */}
+        <div className="space-y-2 flex flex-col justify-end">
           <button 
             type="button"
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-400 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/25 active:scale-95 transition cursor-pointer disabled:cursor-not-allowed whitespace-nowrap"
+            className="w-full py-4 px-6 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white font-black text-base border-2 border-gray-900 shadow-[3px_3px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 transition flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
           >
             {loading ? (
               <span className="flex items-center gap-2">
-                <span className="animate-spin">⏳</span> Processing...
+                <span className="animate-spin">⏳</span> Generating...
               </span>
             ) : (
-              <span>⚡ Generate Studio</span>
+              <span>🚀 Generate Notes</span>
             )}
           </button>
-
         </div>
 
       </div>
 
-      {/* QUICK SUGGESTIONS PILLS */}
-      <div className="flex flex-wrap items-center gap-1.5 text-xs">
-        <span className="text-slate-400 font-semibold mr-1">Quick Select:</span>
-        {quickTopics.slice(0, 4).map((t) => (
-          <button
-            key={t}
-            type="button"
-            onClick={() => setTopic(t)}
-            disabled={loading}
-            className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/60 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] font-semibold transition cursor-pointer"
-          >
-            {t.split(" ")[0]} {t.split(" ")[1]}
-          </button>
-        ))}
-      </div>
-
-      {/* SMART FEATURE TOGGLES */}
-      <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-100 dark:border-white/5 text-xs font-semibold text-slate-600 dark:text-slate-400">
-        <span className="text-slate-400">Features included:</span>
+      {/* SEPARATE CHUNKY TOGGLE BUTTONS */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
         
-        <label className="flex items-center gap-1.5 cursor-pointer hover:text-slate-900 dark:hover:text-white select-none">
+        {/* REVISION MODE TOGGLE */}
+        <label className={`flex items-center justify-between p-4 border-2 border-gray-900 rounded-2xl cursor-pointer transition select-none dark:border-zinc-600 ${
+          revisionMode 
+            ? "bg-amber-50 dark:bg-amber-950/40" 
+            : "bg-gray-50 hover:bg-gray-100 dark:bg-zinc-800/60 dark:hover:bg-zinc-800"
+        }`}>
+          <div>
+            <p className="font-black text-sm text-gray-900 dark:text-white">⚡ Exam Revision Mode</p>
+            <p className="text-xs font-semibold text-gray-500 dark:text-zinc-400">Concise 5-min bullet points</p>
+          </div>
           <input 
             type="checkbox" 
-            checked={includeDiagram}
-            onChange={(e) => setIncludeDiagram(e.target.checked)}
-            disabled={loading}
-            className="rounded text-indigo-600 accent-indigo-600" 
-          />
-          <span>Mermaid Flowcharts</span>
-        </label>
-        
-        <span>•</span>
-
-        <label className="flex items-center gap-1.5 cursor-pointer hover:text-slate-900 dark:hover:text-white select-none">
-          <input 
-            type="checkbox" 
-            checked={includeChart}
-            onChange={(e) => setIncludeChart(e.target.checked)}
-            disabled={loading}
-            className="rounded text-indigo-600 accent-indigo-600" 
-          />
-          <span>Weightage Analytics</span>
-        </label>
-
-        <span>•</span>
-
-        <label className="flex items-center gap-1.5 cursor-pointer hover:text-slate-900 dark:hover:text-white select-none">
-          <input 
-            type="checkbox" 
-            checked={revisionMode}
+            checked={revisionMode} 
             onChange={(e) => setRevisionMode(e.target.checked)}
             disabled={loading}
-            className="rounded text-indigo-600 accent-indigo-600" 
+            className="w-5 h-5 accent-indigo-600 rounded cursor-pointer" 
           />
-          <span>5-Min Cheat Sheet</span>
         </label>
+
+        {/* MERMAID DIAGRAM TOGGLE */}
+        <label className={`flex items-center justify-between p-4 border-2 border-gray-900 rounded-2xl cursor-pointer transition select-none dark:border-zinc-600 ${
+          includeDiagram 
+            ? "bg-indigo-50 dark:bg-indigo-950/40" 
+            : "bg-gray-50 hover:bg-gray-100 dark:bg-zinc-800/60 dark:hover:bg-zinc-800"
+        }`}>
+          <div>
+            <p className="font-black text-sm text-gray-900 dark:text-white">📊 Include Mermaid Diagram</p>
+            <p className="text-xs font-semibold text-gray-500 dark:text-zinc-400">Flowchart & visual concept map</p>
+          </div>
+          <input 
+            type="checkbox" 
+            checked={includeDiagram} 
+            onChange={(e) => setIncludeDiagram(e.target.checked)}
+            disabled={loading}
+            className="w-5 h-5 accent-indigo-600 rounded cursor-pointer" 
+          />
+        </label>
+
+        {/* WEIGHTAGE CHART TOGGLE */}
+        <label className={`flex items-center justify-between p-4 border-2 border-gray-900 rounded-2xl cursor-pointer transition select-none dark:border-zinc-600 ${
+          includeChart 
+            ? "bg-emerald-50 dark:bg-emerald-950/40" 
+            : "bg-gray-50 hover:bg-gray-100 dark:bg-zinc-800/60 dark:hover:bg-zinc-800"
+        }`}>
+          <div>
+            <p className="font-black text-sm text-gray-900 dark:text-white">📈 Include Weightage Chart</p>
+            <p className="text-xs font-semibold text-gray-500 dark:text-zinc-400">Topic distribution graph</p>
+          </div>
+          <input 
+            type="checkbox" 
+            checked={includeChart} 
+            onChange={(e) => setIncludeChart(e.target.checked)}
+            disabled={loading}
+            className="w-5 h-5 accent-indigo-600 rounded cursor-pointer" 
+          />
+        </label>
+
       </div>
 
       {/* PROGRESS BAR */}
       {loading && (
-        <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/5">
-          <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+        <div className="space-y-2 pt-2 border-t-2 border-gray-100 dark:border-zinc-800">
+          <div className="flex items-center justify-between text-xs font-black text-gray-700 dark:text-zinc-300">
             <span>{progressText}</span>
-            <span className="mono text-indigo-600 dark:text-indigo-400">{progress}%</span>
+            <span>{progress}%</span>
           </div>
-          <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+          <div className="w-full h-3 bg-gray-200 dark:bg-zinc-800 rounded-full border-2 border-gray-900 dark:border-zinc-600 overflow-hidden">
             <div 
-              className="h-full bg-indigo-600 rounded-full transition-all duration-300"
+              className="h-full bg-indigo-600 transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
