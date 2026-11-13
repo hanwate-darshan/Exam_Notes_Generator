@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { motion } from "motion/react"
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import TopicForm from '../components/TopicForm'
@@ -12,14 +11,14 @@ function Notes() {
   const [error, setError] = useState("")
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-[#09090B] dark:text-zinc-100 transition-colors duration-200">
+    <div className="min-h-screen bg-[#F8F9FC] text-slate-900 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       
-      {/* GLOBAL BOLD NAVBAR */}
+      {/* GLOBAL NAVBAR */}
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 md:px-8 pt-2 pb-20 space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-24">
 
-        {/* TOPIC FORM CARD */}
+        {/* TOP COMMAND STUDIO FORM */}
         <section>
           <TopicForm 
             loading={loading} 
@@ -29,25 +28,25 @@ function Notes() {
           />
         </section>
 
-        {/* ERROR MESSAGE CARD */}
+        {/* ERROR CARD */}
         {error && (
-          <div className="p-4 bg-red-50 border-2 border-red-500 rounded-2xl text-red-700 font-black text-sm flex items-center gap-3 dark:bg-red-950/50 dark:text-red-300">
-            <span className="text-xl">⚠️</span>
+          <div className="p-4 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 rounded-2xl text-rose-700 dark:text-rose-300 font-semibold text-xs sm:text-sm flex items-center gap-3">
+            <span className="text-lg">⚠️</span>
             <span>{error}</span>
           </div>
         )}
 
         {/* EMPTY STATE */}
         {!result && !loading && (
-          <div className="bg-white border-2 border-dashed border-gray-400 rounded-3xl p-12 text-center space-y-3 dark:bg-[#141416] dark:border-zinc-700">
-            <div className="w-16 h-16 rounded-2xl bg-indigo-50 border-2 border-gray-900 mx-auto flex items-center justify-center text-3xl shadow-[3px_3px_0px_#000] dark:bg-zinc-800 dark:border-zinc-600 dark:shadow-none">
+          <div className="bg-white dark:bg-[#131926] border border-dashed border-slate-300 dark:border-white/10 rounded-3xl p-12 text-center space-y-3 transition-colors">
+            <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 mx-auto flex items-center justify-center text-2xl font-bold shadow-sm">
               📘
             </div>
-            <h3 className="text-lg font-black uppercase text-gray-900 dark:text-white">
-              No Notes Generated Yet
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">
+              Your Study Desk is Ready
             </h3>
-            <p className="text-xs md:text-sm font-semibold text-gray-500 dark:text-zinc-400 max-w-md mx-auto">
-              Enter a chapter or topic above, choose your class and exam board, then click &quot;Generate Notes&quot; to build high-yield revision material.
+            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+              Enter any syllabus chapter above, select your exam board, and generate structured notes, YouTube video lectures, and question banks.
             </p>
           </div>
         )}
@@ -66,6 +65,7 @@ function Notes() {
 
       </main>
 
+      {/* FOOTER */}
       <Footer />
     </div>
   )
